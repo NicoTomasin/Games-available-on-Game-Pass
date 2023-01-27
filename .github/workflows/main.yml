@@ -1,8 +1,9 @@
 name: Node.js script
 
 on:
-  schedule:
-    - cron: '23 6 * * *'
+  push:
+    branches:
+      - main
 
 jobs:
   build:
