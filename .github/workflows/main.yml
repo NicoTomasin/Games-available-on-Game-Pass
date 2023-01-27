@@ -24,7 +24,7 @@ jobs:
           git config --global user.name "GitHub Action"
           git add gameNames.json
           git commit -m "Add game names"
-          git push origin master
+          git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_PUSH }}
 #name: Node.js script
