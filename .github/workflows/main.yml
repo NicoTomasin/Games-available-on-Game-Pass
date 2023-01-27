@@ -2,7 +2,7 @@ name: Node.js script
 
 on:
   schedule:
-    - cron: '28 3 * * *'
+    - cron: '40 4 * * *'
 
 jobs:
   build:
@@ -19,3 +19,12 @@ jobs:
         run: npm ci
       - name: Run script
         run: node scrapper.js
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: gameNames.json
+          path: gameNames.json
+      - name: Push artifact
+        uses: peter-evans/github-push-action@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
