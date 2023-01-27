@@ -31,4 +31,4 @@ jobs:
 
 #on:
 #schedule:
-# - cron: '0 0 * * *' a
+# - cron: '0 0 * * *'
