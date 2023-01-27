@@ -22,5 +22,8 @@ jobs:
         run: node scrapper.js
       - name: action-push
         uses: ludeeus/action-push@0.0.1
-        
-        
+#name: Node.js script
+
+#on:
+#schedule:
+# - cron: '0 0 * * *'
