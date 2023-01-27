@@ -20,8 +20,19 @@ jobs:
         run: npm ci
       - name: Run script
         run: node scrapper.js
-      - name: action-push
-        uses: ludeeus/action-push@0.0.1
+      - name: Push changes
+        uses: actions/github-script@v3
+        with:
+          github_token: ${{ secrets.TOKEN_PUSH }}
+        env:
+          GITHUB_REPOSITORY: ${{ secrets.PUSH_REPOSITORY }}
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git add gameNames.json
+          git commit -m "Add game names"
+          git push origin master
+
 #name: Node.js script
 
 #on:
