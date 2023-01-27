@@ -1,5 +1,3 @@
-name: Node.js script
-
 on:
   push:
     branches:
@@ -21,18 +19,14 @@ jobs:
       - name: Run script
         run: node scrapper.js
       - name: Push changes
-        uses: actions/github-script@v3
-        with:
-          github_token: ${{ secrets.TOKEN_PUSH }}
-        env:
-          GITHUB_REPOSITORY: ${{ secrets.PUSH_REPOSITORY }}
         run: |
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
           git add gameNames.json
           git commit -m "Add game names"
           git push origin master
-
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN_PUSH }}
 #name: Node.js script
 
 #on:
