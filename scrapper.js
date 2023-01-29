@@ -1,7 +1,20 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 let gameNames = [];
+function shuffle(array) {
+  let currentIndex = array.length,
+    randomIndex;
+  while (currentIndex != 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
 
+  return array;
+}
 async function checkGame() {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
@@ -46,7 +59,9 @@ async function checkGame() {
   if (fs.existsSync('gameNames.json')) {
     fs.unlinkSync('gameNames.json');
   }
+  gameNames = shuffle(gameNames);
   gameNames = [...new Set(gameNames)];
+
   fs.writeFile('gameNames.json', JSON.stringify(gameNames), (err) => {
     if (err) throw err;
     console.log('El archivo ha sido guardado');
