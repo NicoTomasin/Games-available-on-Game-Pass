@@ -20,12 +20,15 @@ async function checkGame() {
   const page = await browser.newPage();
   await page.goto('https://www.xbox.com/en-US/xbox-game-pass/games');
   //interact with the page
-
   await page.waitForSelector(
-    '#unique-id-for-paglist-generated-select-menu-trigger'
+    '#unique-id-for-paglist-generated-select-menu-trigger',
+    { timeout: 90000 }
   );
   await page.click('#unique-id-for-paglist-generated-select-menu-trigger');
-  await page.waitForSelector('#unique-id-for-paglist-generated-select-menu-3');
+  await page.waitForSelector(
+    '#unique-id-for-paglist-generated-select-menu-trigger',
+    { timeout: 90000 }
+  );
   await page.click('#unique-id-for-paglist-generated-select-menu-3');
   await page.click('a[data-theplat="pc"].platselectbutton.platpc');
   while (true) {
