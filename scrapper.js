@@ -15,6 +15,7 @@ function shuffle(array) {
 
   return array;
 }
+//https://displaycatalog.mp.microsoft.com/v7.0/products?bigIds=0&market=US&languages=en-us&MS-CV=DGU1mcuYo0WMMp+F.1
 async function checkGame() {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
@@ -23,12 +24,12 @@ async function checkGame() {
   await page.click(".platselectbutton.platpc");
   await page.waitForSelector(
     "#unique-id-for-paglist-generated-select-menu-trigger",
-    { timeout: 10000 }
+    { timeout: 50000 }
   );
   await page.click("#unique-id-for-paglist-generated-select-menu-trigger");
   await page.waitForSelector(
     "#unique-id-for-paglist-generated-select-menu-trigger",
-    { timeout: 10000 }
+    { timeout: 50000 }
   );
   await page.click("#unique-id-for-paglist-generated-select-menu-3");
   while (true) {
