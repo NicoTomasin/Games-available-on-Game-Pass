@@ -2,7 +2,7 @@ name: Update Game List
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
   push:
 
 jobs:
@@ -22,8 +22,8 @@ jobs:
         run: node scrapper.js
       - name: Push changes
         run: |
-          git config --global user.email "action@github.com"
-          git config --global user.name "GitHub Action"
+          git config --global user.email "nicolasgabrieltomasin.com"
+          git config --global user.name "NicoTomasin"
           git add gameNames.json
           git commit -m "Update Game List"
           git push -u origin main
