@@ -22,7 +22,7 @@ jobs:
         run: node scrapper.js
       - name: Push changes
         run: |
-          git config --global user.email "nicolasgabrieltomasin.com"
+          git config --global user.email "nicolasgabrieltomasin@gmail.com"
           git config --global user.name "NicoTomasin"
           git add gameNames.json
           git commit -m "Update Game List"
