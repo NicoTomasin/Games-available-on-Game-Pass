@@ -40,11 +40,7 @@ async function checkGame() {
         'a[aria-label="load more, reveal additional games"]',
         { timeout: 5000 }
       );
-      const loadMoreButton = await page.$(
-        'a[aria-label="load more, reveal additional games"]'
-      );
-      console.log("Click al botón de cargar más juegos");
-      await loadMoreButton.click();
+      await page.click('a[aria-label="load more, reveal additional games"]');
       await delay(2000);
     } catch (error) {
       console.log("No se encontró el botón de cargar más juegos");
