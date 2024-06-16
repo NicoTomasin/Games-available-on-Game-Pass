@@ -1,6 +1,7 @@
 const puppeteer = require("puppeteer");
 const fs = require("fs");
 let gameNames = [];
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 function shuffle(array) {
   let currentIndex = array.length,
     randomIndex;
@@ -12,54 +13,62 @@ function shuffle(array) {
       array[currentIndex],
     ];
   }
-
   return array;
 }
-//https://displaycatalog.mp.microsoft.com/v7.0/products?bigIds=0&market=US&languages=en-us&MS-CV=DGU1mcuYo0WMMp+F.1
+
 async function checkGame() {
+  console.log("Abriendo navegador");
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
+  console.log("Abriendo la página de Xbox Game Pass");
   await page.goto("https://www.xbox.com/en-US/xbox-game-pass/games");
+  console.log("Esperando para acceder a .platselectbutton .platpc");
   await page.waitForSelector(".platselectbutton.platpc", { timeout: 10000 });
   await page.click(".platselectbutton.platpc");
-  await page.waitForSelector(
-    "#unique-id-for-paglist-generated-select-menu-trigger",
-    { timeout: 50000 }
-  );
-  await page.click("#unique-id-for-paglist-generated-select-menu-trigger");
-  await page.waitForSelector(
-    "#unique-id-for-paglist-generated-select-menu-trigger",
-    { timeout: 50000 }
-  );
-  await page.click("#unique-id-for-paglist-generated-select-menu-3");
-  while (true) {
+  try {
+    console.log("Esperando a que carguen los nombres de los juegos");
     await page.waitForSelector(
       'h3.c-subheading-4.x1GameName[itemprop="product name"]'
     );
-    const gameNameElements = await page.$$(
-      'h3.c-subheading-4.x1GameName[itemprop="product name"]'
-    );
-
-    for (let element of gameNameElements) {
-      let innerText = await page.evaluate((e) => e.innerText, element);
-      innerText = innerText.toLowerCase();
-      innerText = innerText.replace(/[()]/g, "");
-      innerText = innerText.replace(
-        /\s*(Xbox\s*Series\s*X\s*\|\s*S|Xbox\s*One|Xbox\s*One\s*&\s*Xbox\s*Series\s*X\|S\s*\(Xbox\s*Series\s*X\|S\s*&\s*PC\)|-\s*Standard\s*Edition|Standard\s*Edition)(?=\s*|\))/gi,
-        ""
+  } catch (error) {
+    console.log("No se encontraron los titulos de los juegos");
+  }
+  while (true) {
+    console.log("Chequeando si está el botón de cargar más juegos");
+    try {
+      await page.waitForSelector(
+        'a[aria-label="load more, reveal additional games"]',
+        { timeout: 5000 }
       );
-
-      gameNames.push(innerText);
-    }
-
-    if ((await page.$("li.paginatenext.pag-disabled")) === null) {
-      await page.waitForSelector('a[aria-label="Next Page"]');
-      await page.click('a[aria-label="Next Page"]');
-    } else {
+      const loadMoreButton = await page.$(
+        'a[aria-label="load more, reveal additional games"]'
+      );
+      console.log("Click al botón de cargar más juegos");
+      await loadMoreButton.click();
+      await delay(2000);
+    } catch (error) {
+      console.log("No se encontró el botón de cargar más juegos");
       break;
     }
   }
+  const gameNameElements = await page.$$(
+    'h3.c-subheading-4.x1GameName[itemprop="product name"]'
+  );
+  for (let element of gameNameElements) {
+    let innerText = await page.evaluate((e) => e.innerText, element);
+    innerText = innerText.toLowerCase();
+    innerText = innerText.replace(/[()]/g, "");
+    innerText = innerText.replace(
+      /\s*(Xbox\s*Series\s*X\s*\|\s*S|Xbox\s*One|Xbox\s*One\s*&\s*Xbox\s*Series\s*X\|S\s*\(Xbox\s*Series\s*X\|S\s*&\s*PC\)|-\s*Standard\s*Edition|Standard\s*Edition)(?=\s*|\))/gi,
+      ""
+    );
+    console.log(innerText + " ha sido añadido");
+    gameNames.push(innerText);
+  }
+  console.log("Cerrando navegador");
   await browser.close();
+
+  console.log("Guardando los nombres de los juegos en un archivo");
   if (fs.existsSync("gameNames.json")) {
     fs.unlinkSync("gameNames.json");
   }
