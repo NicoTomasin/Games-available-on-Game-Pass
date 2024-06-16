@@ -1,3 +1,5 @@
+[![List is updated](https://github.com/NicoTomasin/Games-available-on-Game-Pass/actions/workflows/main.yml/badge.svg)](https://github.com/NicoTomasin/Games-available-on-Game-Pass/actions/workflows/main.yml)
+
 # Games available on Game Pass [en]
 The idea behind this script is to obtain the updated list of games available on GamePass. Additionally, a Chrome extension was created for Steam that adds a visual indicator to check if a game is available on GamePass or not (The extension is not available to the public).
 
