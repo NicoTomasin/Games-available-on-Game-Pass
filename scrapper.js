@@ -33,8 +33,10 @@ async function checkGame() {
   } catch (error) {
     console.log("No se encontraron los titulos de los juegos");
   }
-  while (true) {
+  let i = 0;
+  while (true && i < 20) {
     console.log("Chequeando si está el botón de cargar más juegos");
+
     try {
       await page.waitForSelector(
         'a[aria-label="load more, reveal additional games"]',
@@ -42,6 +44,7 @@ async function checkGame() {
       );
       await page.click('a[aria-label="load more, reveal additional games"]');
       await delay(2000);
+      i++;
     } catch (error) {
       console.log("No se encontró el botón de cargar más juegos");
       break;
