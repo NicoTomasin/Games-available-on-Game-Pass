@@ -18,7 +18,9 @@ function shuffle(array) {
 
 async function checkGame() {
   console.log("Abriendo navegador");
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  });
   const page = await browser.newPage();
   console.log("Abriendo la página de Xbox Game Pass");
   await page.goto("https://www.xbox.com/en-US/xbox-game-pass/games");
