@@ -38,8 +38,8 @@ Para acceder a esta lista podes hacerlo desde:
 
 O podes bajarte el repo y ejecutarlo localmente:
 
-    - npm i
-    - node scrapper.js
+    - bun i
+    - bun scrapper.js
 
 La lista se mantiene actualizada ya que cada 24hs se corre un **[GitHub Actions](https://github.com/features/actions)**
 que corre el script y pushea los cambios en el repo.
