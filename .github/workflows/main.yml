@@ -12,8 +12,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.TOKEN_PUSH || github.token }}
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -26,14 +24,12 @@ jobs:
       - name: Run script
         run: bun run scrapper.js
 
-      - name: Commit and push changes
+      - name: Push changes
         run: |
-          git config --local user.email "nicolasgabrieltomasin@gmail.com"
-          git config --local user.name "NicoTomasin"
+          git config --global user.email "nicolasgabrieltomasin@gmail.com"
+          git config --global user.name "NicoTomasin"
           git add gameNames.json
-          if ! git diff --staged --quiet; then
-            git commit -m "Update Game List"
-            git push
-          else
-            echo "No changes to commit"
-          fi
+          git commit -m "Update Game List" || echo "No changes to commit"
+          git push -u origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN_PUSH }}
