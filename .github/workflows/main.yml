@@ -12,20 +12,24 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: 20
+          bun-version: latest
+
       - name: Install dependencies
-        run: npm i
+        run: bun install
+
       - name: Run script
-        run: node scrapper.js
+        run: bun run scrapper.js
+
       - name: Push changes
         run: |
           git config --global user.email "nicolasgabrieltomasin@gmail.com"
           git config --global user.name "NicoTomasin"
           git add gameNames.json
-          git commit -m "Update Game List"
+          git commit -m "Update Game List" || echo "No changes to commit"
           git push -u origin main
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_PUSH }}

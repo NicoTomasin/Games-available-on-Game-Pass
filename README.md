@@ -16,8 +16,8 @@ You can access this list from:
 
 Alternatively, you can clone the repository and run it locally:
 
-    - npm i
-    - node scrapper.js
+    - bun i
+    - bun scrapper.js
 
 The list is kept up to date by running a **[GitHub Actions](https://github.com/features/actions)** every 24 hours, which executes the script and pushes the changes to the repository.
 
